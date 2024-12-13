@@ -49,8 +49,15 @@ pub enum Namespace<'a> {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct CustomNamespace<'a> {
     name: &'a str,
-    namespace: &'a str,
+    prefix: &'a str,
     url: &'a str,
+}
+
+impl<'a> CustomNamespace<'a> {
+    /// Creates a new custom XML namespace.
+    pub fn new(name: &'a str, prefix: &'a str, url: &'a str) -> Self {
+        Self { name, prefix, url }
+    }
 }
 
 impl<'a> Namespace<'a> {
@@ -167,7 +174,7 @@ impl<'a> Namespace<'a> {
             Self::PdfAType => "pdfaType",
             #[cfg(feature = "pdfa")]
             Self::PdfAField => "pdfaField",
-            Self::Custom(custom) => custom.namespace,
+            Self::Custom(custom) => custom.prefix,
         }
     }
 }
